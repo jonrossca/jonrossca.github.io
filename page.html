@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+   body {
+     font-family: "Roboto", sans-serif;
+     height: 100%;
+   }
+   iframe {
+      width: 90%;
+      min-width: 50%;
+      height: 100%;
+    }
+    
+    .choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    #main-container {
+      height: 100vh;
+    } 
+    
+    #preamble {
+      width: 95%;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+      flex-grow: 1;
+    }
+    
+    #submission {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: centre;
+      position: relative;
+      flex-grow: 1;
+    }
+    
+    #main {
+      display: flex;
+      flex-grow: 4;
+      min-height: 90%;
+    }
+
+    .radio-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      flex-grow: 1;
+    }
+
+    #left {
+      flex-grow: 1;
+      min-width: 50%;
+      height: 100%;
+    }
+
+    #right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    
+    .action-button {
+      font-size: larger;
+      padding: 10px;
+      margin: auto;
+      border-radius: 10px;
+    }
+    
+    .start-scrolling {
+      flex-grow: 1;
+      margin-bottom: 10px;
+      background-color: skyblue;
+    }
+    
+    .submit-rating {
+      background-color: lime;
+    }
+    
+    button:disabled {
+      background-color: #80808038;
+    }
+    
+    #reload {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      min-height: 100%;
+      width: 100%;
+      background-color: #808080cc;
+      visibility: hidden;
+    }
+
+    #inner_reload {
+      background-color: coral;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+    }
+
+    input[type="radio"] {
+      width: 0px;
+    }
+
+    input[type="radio"] + label {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #80808038;
+    }
+    
+    input[type="radio"]:checked + label {
+      background-color: red;
+      color: yellow;
+      font-weight: bold;
+    }
+
+  </style>
+  </head>
+  <body>
+  <div id='main-container' class='column'>
+  <div id='preamble'>
+    <h1>Scrolling: How janky is it?</h1>
+    <p>
+    We are working on improving our metric for capturing smoothness on the web.
+    We want to gather feedback on several user journeys to understand the
+    consensus on which have better/worse smoothness.
+    </p>
+    <p>
+    Please look at the following user journey, and consider how jarring and/or annoying
+    the scrolling experience is.
+    </p>
+    <p>
+    Please <b>ignore other annoyances</b>, such as notification prompts, and interstitial dialogs.
+    </p>
+    <p>
+      To start, please:
+      <ul>
+        <li>Scroll down and/or resize the window to make sure the whole frame below is <b>completely visible</b> on screen.</li>
+        <li>Click the <b class='start-scrolling'>Start scrolling</b> button. This should
+            scroll the frame below.</li>
+        <li>Please wait until the frame is done scrolling. It is best to not do
+            any other activity on the page during this time (since actions like click,
+            scroll, selection, etc. can inadvertently impact the iframe scroll).</li>
+        <li>Select the otion that best captures the scrolling experience.</li>
+        <li>Click <b class='submit-rating'>Submit rating</b> button.</li>
+        <li>Note that the amount of jank in the frame is selected randomly
+            every time you reload the page. So please feel free to reload the page as
+            many times as you want and submit your feedback!</li>
+      </ul>
+    </p>
+  </div>
+  <div id='cluster_input'>
+  <label for="drop_cluster">Drop Cluster (between 0 and 5):</label>
+  <input type="number" id="drop_cluster" name="drop_cluster" min="0" max="5" value="0">
+  <label for="drop_interval">Drop Interval (between 10 and 60):</label>
+  <input type="number" id="drop_interval" name="drop_interval" min="10" max="60" step="10" value="10">
+  </div>
+  <center><button class='action-button start-scrolling' id='start'>Start scrolling</button></center>
+  <div id='main'>
+    <div id='left' class='choice'>
+      <iframe src="bikeshed.html" id='first'></iframe>
+    </div>
+    <div id='right' class='choice'>
+      <div class="radio-button"><input type="radio" name="best" id="VG" required="">
+        <label for="VG">
+          Looks good - very smooth
+        </label>
+      </div>
+      <div class="radio-button"><input type="radio" name="best" id="G" required="">
+        <label for="G">
+          Looks good - maybe some janks
+        </label>
+      </div>
+      <div class="radio-button"><input type="radio" name="best" id="OK" required="">
+        <label for="OK">
+          Some janks, but still acceptable
+        </label>
+      </div>
+      <div class="radio-button"><input type="radio" name="best" id="B" required="">
+        <label for="B">
+          More janks - not smooth at all
+        </label>
+      </div>
+      <div class="radio-button"><input type="radio" name="best" id="VB" required="">
+        <label for="VB">
+          Very janky - very bad
+        </label>
+      </div>
+      <div id='submission'>
+        <textarea id='notes' cols=35 rows=7 placeholder="Please share any notes you have (and/or your username) ..."></textarea>
+        <br>
+        <button id='submit' class='action-button submit-rating'>Submit rating</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div id='reload'>
+    <div id='inner_reload'> 
+    Please reload to submit another rating.
+    </div>
+  </div>
+  <script>
+  
+  /*
+    const template = document.querySelector('#template');
+    template.parentNode.removeChild(template);
+    first.contentDocument.body.appendChild(template.cloneNode(true));
+    */
+   
+    
+    
+    function waitTimer(sec) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, sec * 1000);
+      });
+    }
+    
+    const kMaxOffset = 2000;
+const kIncOffset = 3;
+
+function setUpExperiment(element, kDropCluster, kDropInterval) {
+  const framesExpected = [];
+  var offset = 0;
+  var inc = true;
+  var doneCallback = undefined;
+  var canceled = false;
+
+function setUpFrames(kDropCluster, kDropInterval) {
+  // Empty the frames.
+  framesExpected.splice(0);
+  
+  const windows = Math.ceil((kMaxOffset * 2 / kIncOffset) / kDropInterval);
+  for (let w = 0; w <= windows; ++w) {
+    const dropAfter = 1 + parseInt(Math.random() * 100) % (kDropInterval - kDropCluster - 2);
+    let i = 0;
+    do {
+      framesExpected.push(true);
+    } while (++i < dropAfter);
+    
+    while (i++ < dropAfter + kDropCluster) {
+      framesExpected.push(false);
+    }
+    
+    do {
+      framesExpected.push(true);
+    } while (++i <= kDropInterval);
+  }
+}
+
+  setUpFrames(kDropCluster, kDropInterval);
+  const storedFramesExpected = [].concat(framesExpected);
+
+  function run() {
+    const shouldUpdate = framesExpected.shift();
+    if (kDropCluster == 0 || shouldUpdate) {
+      element.style = 'transform: translateY(-' + parseInt(offset) + 'px);';
+    }
+    offset = inc ? (offset + kIncOffset) : (offset - kIncOffset);
+
+    if (!inc && offset <= 0 || canceled) {
+      element.style = 'transform: unset';
+      if (doneCallback)
+        doneCallback(storedFramesExpected);
+      return;
+    }
+
+    if (inc && offset >= kMaxOffset)
+      inc = false;
+    requestAnimationFrame(run);
+  }
+
+  // The Promise to return, wrapped so it can be returned
+  // with the callback.
+  const wrappedPromise = new Promise((resolve) => {
+    doneCallback = resolve;
+    element.style = 'transform: unset';
+    offset = 0;
+    inc = true;
+    run();
+  });
+
+  // Updates flag checked in run() to exit the experiment
+  // early. If the experiment is done, does nothing.
+  function cancel_impl() {
+    canceled = true;
+  }
+
+  const cancel = cancel_impl;
+
+  return [wrappedPromise, cancel];
+}
+
+    function getRandom(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function getDropCluster() {
+      const clusters = [0, 1, 2, 3, 4, 5];
+      return getRandom(clusters);
+    }
+    
+    function getDropInterval() {
+      const intervals = [10, 20, 30, 40, 60];
+      return getRandom(intervals);
+    }
+
+    const jankConfig = {
+      'dropCluster': getDropCluster(),
+      'dropInterval': getDropInterval(),
+    };
+
+    const start = document.querySelector('#start');
+    const submit = document.querySelector('#submit');
+    var cancel_extern;
+    var frames_stringified = false;
+
+    start.onclick = async function() {
+        
+    var o = document.getElementById('first');
+    o.contentWindow.postMessage('jr')
+    
+      start.textContent = 'Please wait...';
+      start.setAttribute('disabled', true);
+      start.scrollIntoView();
+      await waitTimer(1);
+
+      jankConfig.dropCluster = parseInt(document.getElementById("drop_cluster").value, 10);
+      jankConfig.dropInterval = parseInt(document.getElementById("drop_interval").value, 10);
+      
+
+      const [promise, cancel] = setUpExperiment(first.contentDocument.body,
+          jankConfig.dropCluster, jankConfig.dropInterval);
+      cancel_extern = cancel;
+      const frames = await promise;
+      jankConfig.frames = JSON.stringify(frames);
+      frames_stringified = true;
+      await waitTimer(1);
+      submit.scrollIntoView();
+    };
+
+    function waitForStringify() {
+      return new Promise(resolve => {
+        async function checkFlag() {
+          // If the experiment has not completed wait for a second to give time
+          // to return frames and parse them. Lines up with the wait timer for
+          // scrolling submit into view.
+          // We don't want to block forever on this.
+          if (!frames_stringified){
+            await waitTimer(1);
+          }
+          resolve();
+        };
+        checkFlag();
+      });
+    };
+
+    submit.onclick = async function() {
+      cancel_extern();
+    };
+  </script>
+  </body>
+</html>
+
