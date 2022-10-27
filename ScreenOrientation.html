@@ -1,0 +1,46 @@
+<script>
+  var show = function() {
+     console.log("Orientation is " + screen.orientation.type);
+  }
+
+  screen.orientation.addEventListener("change", show);
+  window.onload = show;
+
+  function toggleFullScreen() {
+    if (!document.webkitFullscreenElement){
+      document.documentElement.webkitRequestFullscreen();
+    }else{
+      document.webkitExitFullscreen();
+    }
+  }  
+
+</script>
+<div id="magic">
+<button onclick=toggleFullScreen()>
+Toggle fullscreen
+</button>
+<button onclick='screen.orientation.unlock()'>
+  Unlock
+</button>
+<button onclick="screen.orientation.lock('portrait')">
+  Lock to portrait
+</button>
+<button onclick="screen.orientation.lock('landscape')">
+  Lock to landscape
+</button>
+<button onclick="screen.orientation.lock('portrait-primary')">
+  Lock to portrait primary
+</button>
+<button onclick="screen.orientation.lock('portrait-secondary')">
+  Lock to portrait secondary
+</button>
+<button onclick="screen.orientation.lock('landscape-primary')">
+  Lock to landscape primary
+</button>
+<button onclick="screen.orientation.lock('landscape-secondary')">
+  Lock to landscape secondary
+</button>
+<a href="https://en.wikipedia.org/wiki/Main_Page">Wikipedia Link</a>
+<a href="ScreenOrientation.html#Hello">Subpage link</a>
+<a href="https://jonrossca.github.io/page.html">Same origin link</a>
+</div>
