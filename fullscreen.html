@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, world!</title>
+    </style>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <p>Welcome to my webpage.</p>
+    <button onclick="requestFullscreen()">Go fullscreen</button>
+
+    <script>
+      function requestFullscreen() {
+        var element = document.documentElement;
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        }
+      }
+    </script>
+  </body>
+</html>
