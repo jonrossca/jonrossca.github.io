@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello, world!</title>
-    </style>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <p>Welcome to my webpage.</p>
-    <button onclick="requestFullscreen()">Go fullscreen</button>
-
-    <script>
-      function requestFullscreen() {
-        var element = document.documentElement;
-        if (element.requestFullscreen) {
-          element.requestFullscreen();
-        }
-      }
-    </script>
+  <body style="background-image: linear-gradient(to right, green,blue);">
+    <button onclick="fullscreen()">Go fullscreen</button>
   </body>
+  <script>
+    document.addEventListener('fullscreenchange', (e) => console.log('fullscreenChange', e));
+    document.addEventListener('fullscreenerror', (e) => console.log('fullscreenError', e));
+    async function fullscreen(element) {
+      console.log('request fullscreen')
+      await document.documentElement.requestFullscreen()
+      console.log('entered fullscreen')
+    }
+  </script>
 </html>
