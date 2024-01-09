@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <script>
+      function setupCanvas(canvas) {
+          var dpr = window.devicePixelRatio || 1;
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * dpr;
+          canvas.height = rect.height * dpr;
+          var ctx = canvas.getContext('2d');
+          ctx.scale(dpr, dpr);
+          canvas.style.width = rect.width + 'px';
+          canvas.style.height = rect.height + 'px';
+          return ctx;
+      }
+
+      var ticks = 0;
+      function hello(animate) {
+          const canvases = document.getElementsByClassName('my-canvas');
+          for (let canvas of canvases) {
+              const ctx = setupCanvas(canvas);
+              ctx.translate(250, 250)
+              ctx.rotate(Math.PI * (ticks / 1000));
+              ctx.font = "48px serif";
+              ctx.textBaseline = "hanging";
+              ctx.strokeText("Hello world", 0, 100);
+
+              ticks++;
+              ctx.restore();
+          }
+          if (animate) window.requestAnimationFrame(() => hello(animate));
+      }
+
+      function start() {
+          const canvases = document.getElementsByClassName('tutorial');
+          for (let canvas of canvases) {
+              setupCanvas(canvas);
+          }
+          hello(false);
+      }
+  </script>
+  <style>
+    .my-empty-box {
+        width: 1000px; /* Set the width of the box */
+        height: 1000px; /* Set the height of the box */
+        border: 1px solid black; /* Add a border */
+        background-color: white; /* Set the background color (optional) */
+    }
+</style>
+  </head>
+  <body onload="start();">
+    <!-- <div class="my-empty-box"></div> -->
+    <!-- <div class="my-empty-box"></div> -->
+    <!-- <div class="my-empty-box"></div> -->
+    <!-- <div class="my-empty-box"></div> -->
+
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <canvas class="my-canvas" width="500px" height="500px"></canvas>
+    <a href="empty.html">GO TO EMPTY PAGE</a>
+  </body>
+</html>
