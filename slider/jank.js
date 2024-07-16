@@ -17,12 +17,14 @@
   }
 
   function init() {
+    // inner: 6
+    // outer: 34
     const pre = document.createElement('pre');
     pre.style = "position:fixed;left:0;top:0px;z-index:2";
     document.body.appendChild(pre);
     const slider = document.createElement('input');
     slider.type = "range";
-    slider.style = "position:fixed;top:0;z-index:2";
+    slider.style = "position:fixed;top:50%;left:20%;width:60%;z-index:2";
     document.body.appendChild(slider);
     slider.value = sliderValue;
     slider.oninput = (e) => {
