@@ -1,0 +1,50 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width">
+You can click this iframe and navigate without it ever showing. To repro, click in the top-left corner of the frame.<br>
+<iframe id=myframe width=200 height=200 onload="didLoad()"></iframe>
+<div id="testbed"></div>
+
+<script>
+  function generate_current_stars(count) {
+    var current_stars_str = `
+      <style>
+      .current_outer_uid {
+        width: 2px;
+        height: 2px;
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10.1 10'><rect fill='blue' width='100' height='100'/></svg>");
+        display: inline-block;
+      }
+      </style>`;
+    current_stars_str += '<div style="line-height: 2px; transform-origin: 0 0; transform: scale(0.1);">';
+    for (var i = 0; i < count; i++) {
+      current_stars_str += '<div class="current_outer_uid"></div>';
+    }
+    current_stars_str += '</div>';
+    return current_stars_str;
+  }
+  // Adjust this number to adjust the gpu complexity.
+  var currentStars = generate_current_stars(100000);
+
+  var hammerGpu = false;
+  function didLoad() {
+    hammerGpu = false;
+  }
+
+
+  setTimeout(() => {
+
+    myframe.src = 'https://www.youtube.com/embed/tgbNymZ7vqY?mute=1';
+    setTimeout(() => {
+      testbed.innerHTML = currentStars;
+    }, 10);
+    hammerGpu = true;
+  }, 300);
+
+  function doGpuWorkIfNeeded() {
+    if (hammerGpu) {
+      testbed.innerHTML = Math.random() + currentStars;
+    }
+    requestAnimationFrame(doGpuWorkIfNeeded);
+  }
+  doGpuWorkIfNeeded();
+</script>
