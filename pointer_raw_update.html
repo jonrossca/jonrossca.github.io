@@ -11,6 +11,10 @@ window.addEventListener("pointerrawupdate", (event) => {
   console.log("JR raw update");
 });
 
+window.addEventListener("touchstart", (event) => {
+  console.log("---- JR touchstart");
+});
+
 window.addEventListener('message', receiver, false);
 function receiver(e) {
   console.log("JR HEY LISTEN");
@@ -20,8 +24,6 @@ window.addEventListener('onclick', clicky, false);
 function clicky() {
   console.log('CLICKY');
 }
-
-console.log("JR HELLO?");
 
 // Setup document colors
 function paintBikeshed() {
