@@ -11,7 +11,8 @@ window.addEventListener("pointerrawupdate", (event) => {
   console.log("JR raw update");
 });
 
-window.addEventListener("touchstart", (event) => {
+window.addEventListener("touchstart", handleTouchStart, { passive: false });
+function handleTouchStart(event) {
   console.log("---- JR touchstart");
 });
 
